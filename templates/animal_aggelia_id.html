@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %} Aggelia ID {% endblock %}
+
+{% block content %}
+<div class="card mb-3" style="max-width:75rem;">
+  <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{Aggelia.photo_url}}"  class="img-fluid" id="{{Aggelia._id}}" alt="Chart" height="auto" width="400px">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">Πληροφορίες</h5>
+          <hr style="max-width: inherit; margin-top: 2px">
+          <a href="{{url_for('report',  dbstring ='animals',id=Aggelia._id )}}" style="color: gray; font-weight:bold; font-size: 15px; text-align: right; float: right">Report</a>
+          {% if Aggelia.name %}
+          <p class="card-text">Αναρτήθηκε από: {{ Aggelia.name }} </p>
+          {% endif %}
+          <p class="card-text">Χάθηκε στην περιοχή: {{ Aggelia.where_lost }}</p>
+          <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">E-mail επικοινωνίας: {{ Aggelia.email }}</p>
+
+          {% if Aggelia.contact_number %}
+          <p class="card-text">Τηλέφωνο Επικοινωνίας {{ Aggelia.contact_number}}</p>
+          {% endif %}
+          {% if Aggelia.description %}
+          <p class="card-text">Λεπτομέρειες: {{ Aggelia.description }}</p>
+          {% endif %}
+          {% if Aggelia.when_lost %}
+          <p class="card-text"><small class="text-muted">Χάθηκε: {{ Aggelia.when_lost}}</small></p>
+          {% endif %}
+          <a class="btn btn-lg btn-primary btn-block"  href = "mailto:{{Aggelia.email}}">Αποστολή E-mail</a>
+        </div>
+      </div>
+    </div>
+</div>
+  {% endblock %}
+
+    

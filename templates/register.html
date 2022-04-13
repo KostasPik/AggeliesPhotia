@@ -1,0 +1,32 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base.html' %}
+{% block title %} Εγγραφτείται {% endblock %}
+
+
+{% block content %}
+  
+    <div class="container" style="margin-top: 20px;">
+        <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+            <p style="color: red; font-style: italic;">Προσοχή, τα στοιχεία που θα διαθέσετε εδώ,<span style="text-decoration: underline;"> εκτώς απο το Username </span>, ΔΕΝ θα είναι διαθέσιμα δημοσίως.</p>  
+            <form class="form-signin" method="POST">
+          <h2 class="form-signin-heading">Κάνε Εγγραφή</h2>
+          <hr style="max-width: inherit; margin-top: 5px;">
+          {{ form.hidden_tag() }}
+          {{ wtf.form_field(form.first_name) }}
+          {{ wtf.form_field(form.last_name) }}
+          {{ wtf.form_field(form.username) }}
+          {{ wtf.form_field(form.email) }}
+          {{ wtf.form_field(form.password) }}
+          {{ wtf.form_field(form.password_confirm) }}
+          <button class="btn btn-lg btn-primary btn-block" type="submit" style="margin-top: 10px;">Εγγραφή</button>
+          {% for message in get_flashed_messages() %}
+          <div style="font-size: 20px; color: red;">{{ message }}</div>
+            {% endfor %}
+        </form>
+        <a href="/login/"><p>Έχεις λογαριασμό; Συνδέσου</p></a>
+        </div>
+    </div>
+    
+    
+{% endblock %}

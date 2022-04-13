@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %} Αγγελίες Κατοικιδίων {% endblock %}
+
+    
+    {% block content %}
+    <h1 style="margin-top: 20px; margin-bottom: 0;">Αγγελίες Κατοικιδίων</h1>
+    <hr>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+    </style>
+    <p id="page-number" hidden>{{num}}</p>
+    <nav aria-label="Search results pages">
+     <h6>Σελίδες</h6>
+      <ul class="pagination" name="pagination" style="justify-content: center;">
+        {% for num in range(1,count+1) %}
+        {% if species %}
+        <li class="page-item" id="1list{{num}}"><a class="page-link" href="{{url_for('by_species', species=species, num=num) }} " id="1link{{num}}">{{num}}</a></li>
+        {% else %}
+        <li class="page-item" id="1list{{num}}"><a class="page-link" href="/{{num}}" id="1link{{num}}">{{num}}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </nav>
+    <hr style="max-width: 20rem; text-align: center; margin: 0 auto 20px auto">
+    <h6>Φίλτρα</h6>
+    <ul class="nav nav-tabs" style="justify-content: center;">
+      <li class="nav-item">
+        <a class="nav-link" href="/filter/dog/1">Dogs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/filter/cat/1">Cats</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/filter/other/1">Other</a>
+      </li>
+    </ul>
+    
+
+
+    {% if aggelies %}
+    <div class="container">
+    {% for aggelia in aggelies %}
+    <div class="card" style="width: 18rem; display: inline-block;  margin: 20px 10px 30px 10px; justify-content: center;">
+      <img src="{{aggelia.photo_url}}" class='card-img-top' id="{{aggelia._id}}" alt="Animal Photo" height="200px" width="auto">  
+      <div class="card-body">
+          <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">{{aggelia.where_lost}}</h5>
+          <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">Username: {{ aggelia.username }}</p>
+          <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">E-mail επικοινωνίας: {{ aggelia.email }}</p>
+          <a href="/animal/{{ aggelia._id }}" class="btn btn-primary">Δείτε περισσότερα</a>
+          <br>
+          <a href="{{url_for('report',  dbstring ='animals',id=aggelia._id )}}" style="color: gray; font-size: 15px; text-align: left;">Report</a>
+        </div>
+      </div>
+      {% endfor %}
+      <nav aria-label="Search results pages">
+        <h6>Σελίδες</h6>
+         <ul class="pagination" name="pagination" style="justify-content: center;">
+           {% for num in range(1,count+1) %}
+           {% if species %}
+           <li class="page-item" id="2list{{num}}"><a class="page-link" href="{{url_for('by_species', species=species, num=num) }} " id="2link{{num}}">{{num}}</a></li>
+           {% else %}
+           <li class="page-item" id="2list{{num}}"><a class="page-link" href="/{{num}}" id="2link{{num}}">{{num}}</a></li>
+           {% endif %}
+           {% endfor %}
+         </ul>
+       </nav>
+      </div>
+      {% else %}
+      <h3 style="margin-top: 20px;">Δεν Βρέθηκαν Αποτελέσματα :(</h3>
+      {% endif %}
+      <script>
+        page_num = document.getElementById("page-number").innerHTML;
+        document.getElementById("1link"+page_num).setAttribute("aria-disabled", "true");
+        document.getElementById("1list"+page_num).setAttribute("class","page-item disabled" );
+        document.getElementById("2link"+page_num).setAttribute("aria-disabled", "true");
+        document.getElementById("2list"+page_num).setAttribute("class","page-item disabled" );
+        
+      
+        </script>
+      {% endblock %}

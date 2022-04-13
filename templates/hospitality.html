@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %} Αγγελίες {% endblock %}
+
+    
+    {% block content %}
+    <h1 style="margin-top: 20px">Αγγελίες Φιλοξενίας</h1>
+    <hr>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+    </style>
+        <p id="page-number" hidden>{{num}}</p>
+
+    <nav aria-label="Search results pages">
+      <h6>Σελίδες</h6>
+      <ul class="pagination" style="justify-content: center;">
+        {% for num in range(1,count+1) %}
+        <li class="page-item" id="1list{{num}}"><a class="page-link" href="{{url_for('hospitality')}}/{{num}}" id="1link{{num}}">{{num}}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <div class="container">
+    {% for aggelia in aggelies %}
+    <div class="card" style="width: 18rem; display: inline-block;  margin: 20px 10px 30px 10px; justify-content: center;">
+        <div class="card-body">
+          <h5 class="card-title">Μπορεί να φιλοξενήσει  <b>{%for specie in aggelia.species %} {{specie}} {%endfor%}</b>.</h5>
+          <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">E-mail επικοινωνίας: {{ aggelia.email }}</p>
+          {% if aggelia.contact_number %}
+          <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">Τηλέφωνο επικοινωνίας: {{ aggelia.contact_number }}</p>
+          {% endif %}
+          <a href="/hospitality/{{ aggelia._id }}" class="btn btn-primary">Δείτε περισσότερα</a>
+          <br>
+          <a href="{{url_for('report',  dbstring ='hospitality',id=aggelia._id )}}" style="color: gray; font-size: 15px; text-align: left;">Report</a>
+        </div>
+      </div>
+      {% endfor %}
+      </div>
+      <nav aria-label="Search results pages">
+        <h6>Σελίδες</h6>
+        <ul class="pagination" style="justify-content: center;">
+          {% for num in range(1,count+1) %}
+          <li class="page-item" id="2list{{num}}"><a class="page-link" href="{{url_for('hospitality')}}/{{num}}" id="2link{{num}}">{{num}}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+      <script>
+        url = window.location.href;
+        character = url.charAt(url.length-1)
+        page_num = document.getElementById("page-number").innerHTML;
+        document.getElementById("1link"+page_num).setAttribute("aria-disabled", "true");
+        document.getElementById("1list"+page_num).setAttribute("class","page-item disabled" );
+        document.getElementById("2link"+page_num).setAttribute("aria-disabled", "true");
+        document.getElementById("2list"+page_num).setAttribute("class","page-item disabled" );
+        </script>
+      {% endblock %}

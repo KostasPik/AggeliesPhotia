@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="gr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=610bf465fe2b30001311f9c9&product=sticky-share-buttons' async='async' defer></script>  
+
+    <title>{% block title %} {% endblock %}</title>
+    
+</head>
+<body>
+  <style>
+    
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(#e4efe9,#93a5cf) fixed;
+      color: #5c6b70 
+    }
+    nav{
+      margin-bottom: 3rem;
+    }
+  </style>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand">Αγγελίες</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Αγγελίες Κατοικιδίων</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/hospitality/1">Αγγελίες φιλοξενίας</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/animal-aggelia/">Ανάρτησε Αγγελία Ζώου</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/hospitality-aggelia/">Μπορώ να Φιλοξενήσω</a>
+        </li>
+        <li class="nav-item">
+          <a type="button" class="nav-link" href="{{url_for('contact')}}">Επικοινωνία / Πληροφορίες</a>
+        </li>
+        {% if not session["logged_in"] %}
+        <li class="nav-item">
+          <a class="nav-link" href="/login/">Συνδέσου</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register/">Κάνε Εγγραφή</a>
+        </li>
+        {% endif %}
+          {% if session["logged_in"] %}
+              <li class="nav-item">
+                <a class="nav-link" href="/my-posts/{{session['user']['username']}}">Οι αγγελίες μου</a>
+              </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout/">Αποσυνδέσου</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+   
+  {% block content %}
+  {% endblock %}
+
+
+<script defer>
+  function Scroller(id){
+  document.getElementById(id).scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+}
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>

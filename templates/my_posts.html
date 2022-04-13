@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %} Οι Αγγελιες Μου {% endblock %}
+
+
+{% block content %}
+    <h1>Οι Αγγελίες Μου</h1>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        hr {
+          margin: 0;
+          margin-bottom: 20px;
+          padding: 0;
+          height: 10px;
+          width: auto;
+          font-weight: bold;
+          font-size: large;
+        }
+        button {
+          margin: 10px;
+        }
+    </style>
+    
+    {% if animal_aggelies %}
+    <div class="container" id="animals">
+      <h3 style="margin-top: 20px">Αγγελίες Κατοικιδίων</h3>
+      <hr>
+      {% for animal_aggelia in animal_aggelies %}
+        <div class="card" style="width: 18rem; display: inline-block;  margin: 0 auto 30px auto">
+          <img src="{{animal_aggelia.photo_url}}" class="card-img-top" id="{{animal_aggelia._id}}" alt="Animal Photo" height="200px" width="auto">
+            <div class="card-body">
+              <p id="message-animal-{{animal_aggelia._id}}" style="color: green; font-size: 18px; font-weight: bold;"></p>
+              <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">{{animal_aggelia.where_lost}}</h5>
+              {% if animal_aggelia.description %}
+              <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">{{ animal_aggelia.description }}</p>
+              {% else %}
+              <p class="card-text">{{animal_aggelia.contact_number}}</p>
+              {% endif %}
+              <a href="/animal/{{ animal_aggelia._id }}" class="btn btn-primary">Δείτε περισσότερα</a>
+              {% if not animal_aggelia.found%}
+              <button type="submit" id="{{animal_aggelia._id}}" class="btn btn-success" value="found" name="found" onclick='animal_found(1,id)'>Βρέθηκε <span style="font: 15px;">(κατεβάζει την αγγελία)</span></button>
+              {% else %}
+                <button type="submit" id="{{animal_aggelia._id}}" class="btn btn-danger" value="found" name="found" onclick='animal_found(0,id)'>Δεν έχει Βρεθεί <span style="font: 15px;">(ανεβάζει την αγγελία)</span></button>
+                {% endif %}
+                <button type="submit" id="{{animal_aggelia._id}}" class="btn btn-danger" value="found" name="found" onclick='delete_animal_aggelia(id)'>Διαγραφή Αγγελίας</button>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      {% endif %}
+
+
+    {% if hospitality_aggelies %}
+    <div class="container" id="hospitality">  
+    <h3 style="margin-top: 20px">Αγγελίες Φιλοξενίας</h3>
+      <hr>
+      {% for hospitality_aggelia in hospitality_aggelies %}
+        <div class="card" style="width: 18rem; display: inline-block;  margin: 0 auto 30px auto">
+            <div class="card-body">
+              <p id="message-hospitality-{{hospitality_aggelia._id}}" style="color: green; font-size: 18px; font-weight: bold;"></p>
+              <h5 class="card-title" >Μπορεί να φιλοξενήσει  <b>{%for specie in hospitality_aggelia.species %} {{specie}} {%endfor%}</b>.</h5>
+              {% if hospitality_aggelia.description %}
+              <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100ch;">{{hospitality_aggelia.description }}</p>
+              {% else %}
+              <p class="card-text">{{hospitality_aggelia.contact_number}}</p>
+              {% endif %}
+              <a href="/hospitality/{{ hospitality_aggelia._id }}" class="btn btn-primary">Δείτε περισσότερα</a>
+              {% if not hospitality_aggelia.full%}
+              <button type="button" id="{{hospitality_aggelia._id}}" class="btn btn-danger" value="found" name="found" onclick='hospitality_full(1,id)'>Δέν μπορώ να φιλοξενήσω <span style="font: 15px;">(κατεβάζει την αγγελία)</span></button>
+              {% else %}
+                <button type="button" id="{{hospitality_aggelia._id}}" class="btn btn-success" value="found" name="found" onclick='hospitality_full(0,id)'>Μπορώ να φιλοξενήσω <span style="font: 15px;">(ανεβάζει την αγγελία)</span></button>
+                {% endif %}
+                <button type="button" id="{{hospitality_aggelia._id}}" class="btn btn-danger" value="found" name="found" onclick='delete_hospitality_aggelia(id)'>Διαγραφή Αγγελίας</button>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      {% endif %}
+      
+      <script>
+        async function animal_found(bool,id) {
+          document.getElementById("message-animal-"+id).innerHTML="Η αλλαγή θα εφαρμοστεί σύντομα."  
+          var url_endpoint = "http://127.0.0.1:5000/animal-found-api/" + bool +"/"+ id;
+            const response = await fetch(url_endpoint);
+            const data = await response.json();
+            console.log(data)
+            
+
+        }
+
+        async function delete_animal_aggelia(id) {
+          document.getElementById("message-animal-"+id).innerHTML="Η αλλαγή θα εφαρμοστεί σύντομα."
+  
+          var url_endpoint = "http://127.0.0.1:5000/delete-animal-api/" + id;
+            const response = await fetch(url_endpoint);
+            const data = await response.json();
+            console.log(data);
+
+        }
+
+        async function delete_hospitality_aggelia(id) {
+          document.getElementById("message-hospitality-"+id).innerHTML="Η αλλαγή θα εφαρμοστεί σύντομα."
+  
+          var url_endpoint = "http://127.0.0.1:5000/delete-hospitality-api/" + id;
+            const response = await fetch(url_endpoint);
+            const data = await response.json();
+            console.log(data);
+
+        }
+
+        async function hospitality_full(bool,id) {
+          document.getElementById("message-hospitality-"+id).innerHTML="Η αλλαγή θα εφαρμοστεί σύντομα."
+  
+          var url_endpoint = "http://127.0.0.1:5000/hospitality-full/" + bool +"/"+ id;
+            const response = await fetch(url_endpoint);
+            const data = await response.json();
+            console.log(data)
+
+
+        }
+      </script>
+      {% endblock %}
