@@ -8,8 +8,8 @@
 
 
 # About the web app
-
- - It uses MongoDB to posts.
+ - It supports Authentication (with e-mail verification).
+ - It uses MongoDB to save posts and users.
  - It uses Redis for caching.
  - It supports pagination.
  - The web app uploads images to an Image CDN service ([Imagekit.io](https://imagekit.io/)), so as to improve loading speeds.
