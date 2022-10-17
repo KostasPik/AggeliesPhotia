@@ -1,6 +1,6 @@
 # Animal Fire Posts
 
-**Animal Fire Posts** is a web app based on the **Flask** framework and created, so as to help pets that lost their owner, due to the wildfires that took place in Greece in the summer of 2021.
+**Animal Fire Posts** is a web app based on the **Flask** framework and created, so as to help pets that lost their owner, due to the wildfires that took place in Greece during the summer of 2021.
 
  - People can upload a photo and details about their lost pet.
  - People can declare that they are able to take care of lost pets, until the owner is found.
